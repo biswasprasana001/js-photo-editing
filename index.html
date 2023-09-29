@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Editing App</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Photo Editing App</h1>
+    </header>
+    <main>
+        <input type="file" id="file-input" accept="image/*">
+        <canvas id="canvas"></canvas>
+        <button id="rotate-left" onclick="rotate(-90)">Rotate Left</button>
+        <button id="rotate-right" onclick="rotate(90)">Rotate Right</button>
+        <button id="zoom-in" onclick="zoom(0.1)">Zoom In</button>
+        <button id="zoom-out" onclick="zoom(-0.1)">Zoom Out</button>
+        <label>
+            Brightness:
+            <input type="range" id="brightness-slider" min="-100" max="100" value="0">
+        </label>
+        <label>
+            Contrast:
+            <input type="range" id="contrast-slider" min="-100" max="100" value="0">
+        </label>
+        <label>
+            Saturation:
+            <input type="range" id="saturation-slider" min="-100" max="100" value="0">
+        </label>
+        <button id="download" onclick="download()">Download</button>
+    </main>
+    <script src="./script.js"></script>
+</body>
+
+</html>
