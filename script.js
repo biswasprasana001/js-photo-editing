@@ -8,6 +8,80 @@ let currentImage = null;
 let currentRotation = 0;  // rotation in degrees
 let currentZoom = 1;  // zoom factor, where 1 is no zoom
 
+async function fetchImages() {
+    try {
+        const response = await fetch('http://localhost:3001/images');
+        const images = await response.json();
+        const imageList = document.getElementById('image-list');
+        imageList.innerHTML = '';  // Clear any existing images
+        images.forEach(image => {
+            const imgElem = document.createElement('img');
+            imgElem.src = image.dataUrl;
+            imgElem.alt = image.name;
+            imgElem.classList.add('saved-image');
+            imgElem.dataset.id = image._id;  // Store the image ID for later use
+            imgElem.onclick = handleImageClick;  // Set up a click handler
+            imageList.appendChild(imgElem);
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = () => deleteImage(image._id);
+            imageList.appendChild(deleteButton);
+        });
+    } catch (error) {
+        console.error('Error fetching images:', error);
+    }
+}
+
+fetchImages();
+
+async function saveImage() {
+    const dataUrl = canvas.toDataURL();
+    console.log(dataUrl);
+    try {
+        const response = await fetch('http://localhost:3001/images', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ dataUrl, name: 'Edited Image' }),  // You can provide a name or other data here
+        });
+        const savedImage = await response.json();
+        fetchImages();
+        // TODO: Update your UI to include the saved image
+    } catch (error) {
+        console.error('Error saving image:', error);
+    }
+}
+
+async function deleteImage(imageId) {
+    try {
+        await fetch(`http://localhost:3001/images/${imageId}`, { method: 'DELETE' });
+        fetchImages();  // Refresh the list of images
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+}
+
+function handleImageClick(event) {
+    const imgElem = event.currentTarget;
+    const dataUrl = imgElem.src;
+    loadNewImage(dataUrl);
+}
+
+function loadNewImage(dataUrl) {
+    const img = new Image();
+    img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        currentImage = img;
+        currentRotation = 0;  // reset rotation
+        currentZoom = 1;  // reset zoom
+    };
+    img.src = dataUrl;
+}
+
 function handleFileInput(event) {
     const file = event.target.files[0];
     if (file && file.type.match('image.*')) {
