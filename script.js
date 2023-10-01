@@ -8,9 +8,66 @@ let currentImage = null;
 let currentRotation = 0;  // rotation in degrees
 let currentZoom = 1;  // zoom factor, where 1 is no zoom
 
-async function fetchImages() {
+// script.js
+async function register() {
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+    if (!username || !password) {
+        alert('Username and password are required');
+        return;
+    }
     try {
-        const response = await fetch('http://localhost:3001/images');
+        const response = await fetch('http://localhost:3001/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        if (response.ok) {
+            alert('Registration successful');
+        } else {
+            const errorData = await response.json();
+            alert(`Registration failed: ${errorData.error}`);
+        }
+    } catch (error) {
+        console.error('Error registering:', error);
+    }
+}
+
+async function login() {
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    try {
+        const response = await fetch('http://localhost:3001/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await response.json();
+        localStorage.setItem('token', data.token);  // Store the token for later use
+        fetchImages();
+        alert('Login successful');
+    } catch (error) {
+        console.error('Error logging in:', error);
+    }
+}
+
+function logout() {
+    localStorage.removeItem('token');  // Remove the token from localStorage
+    // Optionally, clear any user-related state in your app:
+    const imageList = document.getElementById('image-list');
+    imageList.innerHTML = '';  // Clear the list of images
+    ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
+    // ... clear any other user-related state ...
+    alert('Logged out');
+}
+
+async function fetchImages() {
+    const token = localStorage.getItem('token');
+    if (!token) return;  // Don't fetch images if not logged in
+    try {
+        const response = await fetch('http://localhost:3001/images', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         const images = await response.json();
         const imageList = document.getElementById('image-list');
         imageList.innerHTML = '';  // Clear any existing images
@@ -32,18 +89,21 @@ async function fetchImages() {
     }
 }
 
-fetchImages();
-
 async function saveImage() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please log in to save images');
+        return;
+    }
     const dataUrl = canvas.toDataURL();
-    console.log(dataUrl);
     try {
         const response = await fetch('http://localhost:3001/images', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ dataUrl, name: 'Edited Image' }),  // You can provide a name or other data here
+            body: JSON.stringify({ dataUrl, name: 'Edited Image' })
         });
         const savedImage = await response.json();
         fetchImages();

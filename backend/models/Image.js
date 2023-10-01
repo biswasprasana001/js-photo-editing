@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const imageSchema = new mongoose.Schema({
   dataUrl: String,
   name: String,
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }  // New field
 });
 
 module.exports = mongoose.model('Image', imageSchema);
