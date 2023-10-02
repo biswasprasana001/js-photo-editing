@@ -14,45 +14,55 @@
     <header>
         <h1>Photo Editing App</h1>
     </header>
+    <!-- Authentication Container -->
     <div id="auth-container">
         <div id="register">
+            <!-- ... registration form ... -->
             <h2>Register</h2>
             <input type="text" id="register-username" placeholder="Username">
             <input type="password" id="register-password" placeholder="Password">
             <button onclick="register()">Register</button>
         </div>
+        <!-- ... login form ... -->
         <div id="login">
             <h2>Login</h2>
             <input type="text" id="login-username" placeholder="Username">
             <input type="password" id="login-password" placeholder="Password">
             <button onclick="login()">Login</button>
-            <button id="logout" onclick="logout()">Logout</button>
         </div>
     </div>
-    <main>
-        <input type="file" id="file-input" accept="image/*">
-        <canvas id="canvas"></canvas>
-        <button id="rotate-left" onclick="rotate(-90)">Rotate Left</button>
-        <button id="rotate-right" onclick="rotate(90)">Rotate Right</button>
-        <button id="zoom-in" onclick="zoom(0.1)">Zoom In</button>
-        <button id="zoom-out" onclick="zoom(-0.1)">Zoom Out</button>
-        <label>
-            Brightness:
-            <input type="range" id="brightness-slider" min="-100" max="100" value="0">
-        </label>
-        <label>
-            Contrast:
-            <input type="range" id="contrast-slider" min="-100" max="100" value="0">
-        </label>
-        <label>
-            Saturation:
-            <input type="range" id="saturation-slider" min="-100" max="100" value="0">
-        </label>
-        <button id="save" onclick="saveImage()">Save</button>
-        <button id="download" onclick="download()">Download</button>
-        <div id="image-list"></div>
-        <div id="loading" style="display: none;">Loading...</div>
-    </main>
+    <!-- Photo Editor Container -->
+    <div id="editor-container" style="display: none;">
+        <div id="user-info">
+            Welcome, <span id="username-display"></span>!
+            <button id="logout" onclick="logout()">Logout</button>
+            <main>
+                <input type="file" id="file-input" accept="image/*">
+                <canvas id="canvas"></canvas>
+                <button id="rotate-left" onclick="rotate(-90)">Rotate Left</button>
+                <button id="rotate-right" onclick="rotate(90)">Rotate Right</button>
+                <button id="zoom-in" onclick="zoom(0.1)">Zoom In</button>
+                <button id="zoom-out" onclick="zoom(-0.1)">Zoom Out</button>
+                <label>
+                    Brightness:
+                    <input type="range" id="brightness-slider" min="-100" max="100" value="0">
+                </label>
+                <label>
+                    Contrast:
+                    <input type="range" id="contrast-slider" min="-100" max="100" value="0">
+                </label>
+                <label>
+                    Saturation:
+                    <input type="range" id="saturation-slider" min="-100" max="100" value="0">
+                </label>
+                <button id="save" onclick="saveImage()">Save</button>
+                <button id="download" onclick="download()">Download</button>
+                <div id="image-list"></div>
+                <div id="loading" style="display: none;">Loading...</div>
+            </main>
+        </div>
+        <!-- ... rest of your photo editor HTML ... -->
+    </div>
     <script src="./script.js"></script>
 </body>
 

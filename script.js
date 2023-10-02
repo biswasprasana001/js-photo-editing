@@ -43,23 +43,51 @@ async function login() {
             body: JSON.stringify({ username, password })
         });
         const data = await response.json();
-        localStorage.setItem('token', data.token);  // Store the token for later use
-        fetchImages();
-        alert('Login successful');
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', username);  // Store the username for later use
+        showEditor();
     } catch (error) {
         console.error('Error logging in:', error);
     }
 }
 
 function logout() {
-    localStorage.removeItem('token');  // Remove the token from localStorage
-    // Optionally, clear any user-related state in your app:
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');  // Remove the username from localStorage
+    hideEditor();
+}
+
+function showEditor() {
+    document.getElementById('auth-container').style.display = 'none';
+    document.getElementById('editor-container').style.display = 'block';
+    document.getElementById('username-display').textContent = localStorage.getItem('username');
+    fetchImages();
+}
+
+function hideEditor() {
+    document.getElementById('editor-container').style.display = 'none';
+    document.getElementById('auth-container').style.display = 'block';
+    // ... rest of your logout cleanup code ...
     const imageList = document.getElementById('image-list');
     imageList.innerHTML = '';  // Clear the list of images
     ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
     // ... clear any other user-related state ...
     alert('Logged out');
 }
+
+
+function checkAuthStatus() {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    if (token && username) {
+        showEditor();
+    } else {
+        hideEditor();
+    }
+}
+
+// Call the function when the page loads
+window.onload = checkAuthStatus;
 
 async function fetchImages() {
     const token = localStorage.getItem('token');
