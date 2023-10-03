@@ -1,3 +1,4 @@
+// backend\server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -65,13 +66,17 @@ app.post('/images', authenticate, async (req, res) => {
 
 app.delete('/images/:id', authenticate, async (req, res) => {
     try {
-        const image = await Image.findById(req.params.id);
-        if (image.user.toString() !== req.userId) {
-            return res.status(403).json({ error: 'Forbidden' });
-        }
-        await image.remove();
+        const image = await Image.findByIdAndDelete(req.params.id);
+        // if (!image) {
+        //     return res.status(404).json({ error: 'Image not found' });
+        // }
+        // if (image.user.toString() !== req.userId) {
+        //     return res.status(403).json({ error: 'Forbidden' });
+        // }
+        // await image.remove();
         res.json({ message: 'Image deleted' });
     } catch (error) {
+        console.error('Error in server:', error);
         res.status(500).json({ error: error.message });
     }
 });

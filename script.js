@@ -92,6 +92,7 @@ window.onload = checkAuthStatus;
 async function fetchImages() {
     const token = localStorage.getItem('token');
     if (!token) return;  // Don't fetch images if not logged in
+    document.getElementById('loading-indicator').style.display = 'block';
     try {
         const response = await fetch('http://localhost:3001/images', {
             headers: { Authorization: `Bearer ${token}` }
@@ -114,6 +115,8 @@ async function fetchImages() {
         });
     } catch (error) {
         console.error('Error fetching images:', error);
+    } finally {
+        document.getElementById('loading-indicator').style.display = 'none';
     }
 }
 
@@ -142,9 +145,20 @@ async function saveImage() {
 }
 
 async function deleteImage(imageId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please log in to delete images');
+        return;
+    }
     try {
-        await fetch(`http://localhost:3001/images/${imageId}`, { method: 'DELETE' });
-        fetchImages();  // Refresh the list of images
+        const response = await fetch(`http://localhost:3001/images/${imageId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        fetchImages();
     } catch (error) {
         console.error('Error deleting image:', error);
     }

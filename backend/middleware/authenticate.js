@@ -7,7 +7,8 @@ function authenticate(req, res, next) {
         const decoded = jwt.verify(token, 'your_jwt_secret');
         req.userId = decoded.userId;
         next();
-    } catch {
+    } catch (error) {
+        console.error('Error in authentication:', error);
         res.status(401).json({ error: 'Unauthorized' });
     }
 }
