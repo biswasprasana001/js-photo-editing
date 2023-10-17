@@ -7,12 +7,15 @@ const jwt = require('jsonwebtoken');
 const authenticate = require('./middleware/authenticate')
 const Image = require('./models/Image');
 const User = require('./models/User');
+require('dotenv').config();
 
 const app = express();
 
 // Allow requests from your frontend app
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
+
+app.use(express.static('../public'));
 
 // Registration endpoint
 app.post('/register', async (req, res) => {
@@ -82,7 +85,7 @@ app.delete('/images/:id', authenticate, async (req, res) => {
 });
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://biswasprasana004:Elrd8Dv1XsuwvcPo@cluster0.r7ri5c0.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Check MongoDB connection
 const db = mongoose.connection;
@@ -91,6 +94,6 @@ db.once('open', function () {
     console.log('Connected to MongoDB');
 });
 
-app.listen(3001, () => {
-    console.log('Server is running on port 3001');
+app.listen(process.env.PORT, () => {
+    console.log('Server is running on port 3000');
 });

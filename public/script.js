@@ -17,7 +17,7 @@ async function register() {
         return;
     }
     try {
-        const response = await fetch('http://localhost:3001/register', {
+        const response = await fetch('/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -37,7 +37,7 @@ async function login() {
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
     try {
-        const response = await fetch('http://localhost:3001/login', {
+        const response = await fetch('/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -72,7 +72,7 @@ function hideEditor() {
     imageList.innerHTML = '';  // Clear the list of images
     ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
     // ... clear any other user-related state ...
-    alert('Logged out');
+    // alert('Logged out');
 }
 
 
@@ -94,7 +94,7 @@ async function fetchImages() {
     if (!token) return;  // Don't fetch images if not logged in
     document.getElementById('loading-indicator').style.display = 'block';
     try {
-        const response = await fetch('http://localhost:3001/images', {
+        const response = await fetch('/images', {
             headers: { Authorization: `Bearer ${token}` }
         });
         const images = await response.json();
@@ -128,7 +128,7 @@ async function saveImage() {
     }
     const dataUrl = canvas.toDataURL();
     try {
-        const response = await fetch('http://localhost:3001/images', {
+        const response = await fetch('/images', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ async function deleteImage(imageId) {
         return;
     }
     try {
-        const response = await fetch(`http://localhost:3001/images/${imageId}`, {
+        const response = await fetch(`/images/${imageId}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${token}` }
         });
