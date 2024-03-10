@@ -4,6 +4,25 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 fileInput.addEventListener('change', handleFileInput);
 
+let isRegister = true;
+
+function toggleAuth() {
+    const toggleButton = document.getElementById('toggle-button');
+    if (isRegister) {
+        document.getElementById('register').style.display = 'none';
+        document.getElementById('login').style.display = 'block';
+        toggleButton.textContent = 'New User?, Register Here!';
+        isRegister = false;
+    } else {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('register').style.display = 'block';
+        toggleButton.textContent = 'Already a User?, Login!';
+        isRegister = true;
+    }
+}
+
+toggleAuth();
+
 let currentImage = null;
 let currentRotation = 0;  // rotation in degrees
 let currentZoom = 1;  // zoom factor, where 1 is no zoom
@@ -26,7 +45,11 @@ async function register() {
             alert('Registration successful');
         } else {
             const errorData = await response.json();
-            alert(`Registration failed: ${errorData.error}`);
+            if (errorData.error === 'User already exists') {
+                alert('User already exists');
+            } else {
+                alert(`Registration failed: ${errorData.error}`);
+            }
         }
     } catch (error) {
         console.error('Error registering:', error);
@@ -42,12 +65,18 @@ async function login() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         });
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', username);  // Store the username for later use
-        showEditor();
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', username);  // Store the username for later use
+            showEditor();
+        } else {
+            const errorData = await response.json();
+            alert(`Login failed: ${errorData.error}`);
+        }
     } catch (error) {
         console.error('Error logging in:', error);
+        alert('Error logging in:', error);
     }
 }
 

@@ -24,6 +24,10 @@ app.post('/register', async (req, res) => {
         if (!username || !password) {
             return res.status(400).json({ error: 'Username and password are required' });
         }
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User already exists' });
+        }
         const user = new User(req.body);
         await user.save();
         res.status(201).json(user);
@@ -43,6 +47,7 @@ app.post('/login', async (req, res) => {
         const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
+        console.error('Error logging in:', error);
         res.status(401).json({ error: error.message });
     }
 });
