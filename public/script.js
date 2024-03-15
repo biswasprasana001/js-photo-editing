@@ -128,19 +128,23 @@ async function fetchImages() {
         });
         const images = await response.json();
         const imageList = document.getElementById('image-list');
-        imageList.innerHTML = '';  // Clear any existing images
+        imageList.innerHTML = '';
         images.forEach(image => {
+            const divElem = document.createElement('div');
+            divElem.classList.add('image-button');
             const imgElem = document.createElement('img');
             imgElem.src = image.dataUrl;
             imgElem.alt = image.name;
             imgElem.classList.add('saved-image');
-            imgElem.dataset.id = image._id;  // Store the image ID for later use
-            imgElem.onclick = handleImageClick;  // Set up a click handler
-            imageList.appendChild(imgElem);
+            imgElem.dataset.id = image._id;
+            imgElem.onclick = handleImageClick;
             const deleteButton = document.createElement('button');
+            deleteButton.classList.add('delete-button');
             deleteButton.textContent = 'Delete';
             deleteButton.onclick = () => deleteImage(image._id);
-            imageList.appendChild(deleteButton);
+            divElem.appendChild(imgElem);
+            divElem.appendChild(deleteButton);
+            imageList.appendChild(divElem);
         });
     } catch (error) {
         console.error('Error fetching images:', error);
