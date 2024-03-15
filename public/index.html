@@ -39,9 +39,10 @@
         </div>
         <main>
             <input type="file" id="file-input" accept="image/*">
+            <button onclick="document.getElementById('file-input').click()" id="upload-button">Upload Image</button>
             <div id="image-container">
                 <div id="canvas-container">
-                    <canvas id="canvas" width="500"></canvas>
+                    <canvas id="canvas"></canvas>
                 </div>
                 <div id="controls">
                     <button id="rotate-left" onclick="rotate(-90)">Rotate Left</button>
@@ -60,12 +61,13 @@
                         Saturation:
                         <input type="range" id="saturation-slider" min="-100" max="100" value="0">
                     </label>
+                    <button id="clear-canvas" onclick="clearCanvas()">Clear Canvas</button>
                 </div>
             </div>
             <button id="save" onclick="saveImage()">Save</button>
             <button id="download" onclick="download()">Download</button>
-            <div id="image-list"></div>
             <div id="loading-indicator" style="display: none;">Loading...</div>
+            <div id="image-list"></div>
         </main>
     </div>
     <script src="./script.js"></script>

@@ -131,7 +131,7 @@ async function fetchImages() {
         imageList.innerHTML = '';
         images.forEach(image => {
             const divElem = document.createElement('div');
-            divElem.classList.add('image-button');
+            divElem.classList.add('image');
             const imgElem = document.createElement('img');
             imgElem.src = image.dataUrl;
             imgElem.alt = image.name;
@@ -292,6 +292,10 @@ function applyFilters() {
             .saturation(saturation)
             .render();
     });
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function download() {
