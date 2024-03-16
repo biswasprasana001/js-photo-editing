@@ -201,3 +201,50 @@ label {
     font-weight: bold;
     margin-top: 20px;
 }
+
+@media (max-width: 1880px) {
+    #editor-container {
+        width: 50%;
+    }
+
+    #image-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #image-container {
+        flex-direction: column;
+        width: 65%;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        background-color: #f4f4f4
+    }
+
+    #canvas-container {
+        width: 90%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    #canvas {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    #editor-container {
+        width: 80%;
+    }
+
+    #image-container {
+        width: 90%
+    }
+
+    #image-list {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 10px;
+    }
+}
