@@ -2,6 +2,8 @@
 // We're bringing in the 'jsonwebtoken' library, which helps us work with JSON Web Tokens (JWTs).
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+
 // We're defining a function named 'authenticate'. This function will be used as middleware in our Express routes.
 function authenticate(req, res, next) {
     try {
@@ -10,7 +12,7 @@ function authenticate(req, res, next) {
         const token = req.headers.authorization.split(' ')[1];
 
         // We're verifying the token using the same secret that was used to sign it. If the token is valid, 'verify' will return the payload of the token.
-        const decoded = jwt.verify(token, 'your_jwt_secret');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // We're adding a new property 'userId' to the request object. This property will contain the ID of the user who was authenticated.
         req.userId = decoded.userId;

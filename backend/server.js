@@ -81,7 +81,7 @@ app.post('/login', async (req, res) => {
         }
 
         // If the username and password are correct, we create a new JSON Web Token (JWT) for the user. This token will be used for authentication in subsequent requests.
-        const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // We return the token to the client.
         res.json({ token });

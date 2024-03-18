@@ -194,7 +194,7 @@ function hideEditor() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // We're showing an alert saying 'Logged out'. This gives the user feedback that they've been logged out.
-    alert('Logged out');
+    // alert('Logged out');
 }
 
 // We're defining a function named 'checkAuthStatus'. This function will be used to check if the user is logged in when the page loads.
