@@ -162,6 +162,8 @@ db.once('open', function () {
 // We're telling our Express application to start listening for incoming HTTP requests.
 // The port number is retrieved from an environment variable, and if it's not set, we default to 3000.
 // The function passed as the second argument will run once when the server starts listening.
-app.listen(process.env.PORT || 3000, () => {
-    console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT || 3000, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
