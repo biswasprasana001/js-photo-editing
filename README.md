@@ -1,33 +1,41 @@
-# JSPhotoEditor
+# JS Photo Editing
 
 ## Overview
-This is a web-based photo editing app that allows users to upload, edit, save, download, and re-edit images using various filters and effects. The app is built with HTML, CSS, JS, CamanJs, Node, Express, and Mongo. The app uses CamanJs to manipulate the pixels of the images and apply different filters such as vintage, lomo, clarity, etc. The app also uses Node and Express to create a backend server & Mongo to store the images in a database and retrieve them for further editing.
 
+JS Photo Editing is a web-based photo editing application that allows users to upload, edit, save, download, and re-edit images using various filters and effects. Built with HTML, CSS, JavaScript, Node.js, Express, MongoDB, and HTML Canvas, this application provides a robust and user-friendly platform for photo manipulation.
 
 ## Features
-- **Image Upload**: Users can upload an image of their choice which will be rendered on a canvas.
-- **Image editing**: Users can edit the images using a range of filters and effects provided by CamanJs. Users can adjust the brightness, contrast, saturation, etc. of the images. Users can also rotate, zoom the images.
-- **Image saving**: Users can save the edited images in the database for future access.
-- **Image downloading**: Users can download the edited images to their local device.
-- **Image re-editing**: Users can re-edit the images that are stored in the database. The app retrieves the image from Mongo and displays it on the canvas for further editing.
+
+- **Image Upload**: Users can upload images which will be rendered on a canvas.
+- **Image Editing**: Users can edit images with filters and effects such as brightness, contrast, and saturation adjustments, as well as rotation and zooming.
+- **Image Saving**: Edited images can be saved to the database for future access.
+- **Image Downloading**: Users can download the edited images to their local devices.
+- **Image Re-editing**: Previously saved images can be retrieved from the database and re-edited.
+
+## Live Demo
+
+Check out the live version of the project at [JS Photo Editing on Render](https://js-photo-editing.onrender.com). Please note that the website may take 50 seconds or longer to load, as the server shuts down after 30 minutes of inactivity and requires time to restart upon receiving a new request.
 
 ## Installation
-To run this app locally, you need to have Node.js and Mongo installed on your system. You also need to clone this repository or download the zip file.
 
-To install the dependencies, run the following command in the terminal:
-```
-npm install
-```
-To start the server, run the following command in the terminal:
-```
-node backend\server.js
-```
-The server will run on port 3000 by default. You can change it in the `backend\server.js` file if you want.
+To run this application locally, ensure you have Node.js and MongoDB installed. Clone this repository or download the zip file.
 
-To access the app, open your browser and go to `http://localhost:3000`.
+### Steps:
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the server:
+   ```bash
+   node backend/server.js
+   ```
+3. Open your browser and navigate to `http://localhost:3000`.
 
 ## Contributing
-Feel free to fork this repository, make changes, and open a pull request if you think you have a way to improve this app or fix issues. Any contributions are welcome!
+
+Contributions are welcome! Feel free to fork this repository, make changes, and open a pull request.
 
 ## License
+
 This project is licensed under the [MIT License](https://mit-license.org/).
